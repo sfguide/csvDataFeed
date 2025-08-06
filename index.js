@@ -10,6 +10,7 @@ app.use(cors());
 
 app.get('/events', (req, res) => {
   const results = [];
+
   const today = new Date();
   const sixMonthsFromNow = new Date();
   sixMonthsFromNow.setMonth(today.getMonth() + 6);
@@ -17,26 +18,22 @@ app.get('/events', (req, res) => {
   fs.createReadStream('events.csv')
     .pipe(csv())
     .on('data', (row) => {
-      try {
-        const eventDate = new Date(row.startDate);
-        if (eventDate >= today && eventDate <= sixMonthsFromNow) {
-          results.push(row);
-        }
-      } catch (err) {
-        console.error('Error parsing row:', err);
+      const eventStart = new Date(row.startDate);
+      if (eventStart >= today && eventStart <= sixMonthsFromNow) {
+        results.push(row);
       }
     })
     .on('end', () => {
       res.json(results);
     })
     .on('error', (err) => {
-      console.error('Error reading CSV:', err);
-      res.status(500).json({ error: 'Error reading events.csv' });
+      console.error('CSV read error:', err);
+      res.status(500).json({ error: 'Failed to read events.csv' });
     });
 });
 
 app.get('/', (req, res) => {
-  res.send('Events API is running (CSV version).');
+  res.send('CSV Events API is running.');
 });
 
 app.listen(PORT, () => {
