@@ -11,15 +11,22 @@ app.use(cors());
 app.get('/events', (req, res) => {
   const results = [];
 
-  const today = new Date();
-  const sixMonthsFromNow = new Date();
-  sixMonthsFromNow.setMonth(today.getMonth() + 6);
+  const userStartDate = req.query.startDate ? new Date(req.query.startDate) : new Date();
+  const classification = req.query.classificationName?.toLowerCase();
 
   fs.createReadStream('events.csv')
     .pipe(csv())
     .on('data', (row) => {
       const eventStart = new Date(row.startDate);
-      if (eventStart >= today && eventStart <= sixMonthsFromNow) {
+      
+      const startDateMatch = eventStart >= userStartDate;
+
+      // Optional classificationName filtering
+      const classificationMatch = classification
+        ? row.classificationName?.toLowerCase().includes(classification)
+        : true;
+
+      if (startDateMatch && classificationMatch) {
         results.push(row);
       }
     })
