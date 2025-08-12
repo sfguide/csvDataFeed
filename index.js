@@ -14,7 +14,7 @@ app.get('/events', (req, res) => {
   const userStartDate = req.query.startDate ? new Date(req.query.startDate) : new Date();
   const classification = req.query.classificationName?.toLowerCase();
 
-  fs.createReadStream('events_2.csv')
+  fs.createReadStream('Events_2.csv')
     .pipe(csv())
     .on('data', (row) => {
       const eventStart = new Date(row.startDate);
