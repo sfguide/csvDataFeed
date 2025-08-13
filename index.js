@@ -28,6 +28,12 @@ app.get('/events', (req, res) => {
         ? row.classificationName?.toLowerCase().includes(classification)
         : true;
 
+      //debug loggin
+      console.log('Row:', row);
+      console.log('userStartDate:', userStartDate);
+      console.log('eventStart:', eventStart, 'eventEnd:', eventEnd);
+      console.log('dateInRange:', dateInRange, 'classificationMatch:', classificationMatch);
+      
       //      if (startDateMatch && classificationMatch) {        8/13 test
       if (dateInRange && classificationMatch) {
         results.push(row);
