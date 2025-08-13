@@ -18,15 +18,18 @@ app.get('/events', (req, res) => {
     .pipe(csv())
     .on('data', (row) => {
       const eventStart = new Date(row.startDate);
+      const eventEnd = new Date(row.endDate);          //new to check date range
       
-      const startDateMatch = eventStart >= userStartDate;
+      //const startDateMatch = eventStart >= userStartDate;   comment 8/13 for check date ranage
+      const dateInRange = userStartDate >= eventStart && userStartDate <= eventEnd;      //from chat on 
 
       // Optional classificationName filtering
       const classificationMatch = classification
         ? row.classificationName?.toLowerCase().includes(classification)
         : true;
 
-      if (startDateMatch && classificationMatch) {
+      //      if (startDateMatch && classificationMatch) {        8/13 test
+      if (dateInRange && classificationMatch) {
         results.push(row);
       }
     })
