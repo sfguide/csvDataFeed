@@ -21,7 +21,7 @@ app.get('/events', (req, res) => {
       const eventEnd = new Date(row.endDate);          //new to check date range
       
       //const startDateMatch = eventStart >= userStartDate;   comment 8/13 for check date ranage
-      const dateInRange = userStartDate >= eventStart && userStartDate <= eventEnd;      //from chat on 
+      const dateInRange = eventEnd >= userStartDate;      //from chat on 
 
       // Optional classificationName filtering
       const classificationMatch = classification
@@ -30,7 +30,7 @@ app.get('/events', (req, res) => {
 
       //debug loggin
       //console.log('Row:', row);
-      console.log('userStartDate:', userStartDate);
+      //console.log('userStartDate:', userStartDate);
       console.log('eventStart:', eventStart, 'eventEnd:', eventEnd);
       console.log('dateInRange:', dateInRange, 'classificationMatch:', classificationMatch);
       
