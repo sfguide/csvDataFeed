@@ -29,7 +29,7 @@ app.get('/events', (req, res) => {
         : true;
 
       //debug loggin
-      console.log('Row:', row);
+      //console.log('Row:', row);
       console.log('userStartDate:', userStartDate);
       console.log('eventStart:', eventStart, 'eventEnd:', eventEnd);
       console.log('dateInRange:', dateInRange, 'classificationMatch:', classificationMatch);
